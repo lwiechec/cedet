@@ -123,7 +123,7 @@
   :require  'ede/maven2
   :type 'string)
 
-(defcustom ede-maven2-maven-options '("-B")
+(defcustom ede-maven2-maven-options '("--batch-mode")
   "Maven's command line options"
   :group 'ede-maven2
   :require  'ede/maven2
@@ -197,7 +197,8 @@ Argument COMMAND is the command to use when compiling."
   "Get classpath for maven project"
   (ede-jvm-get-classpath-from-command proj ede-maven2-execute-mvn-to-get-classpath
 				      maven2-outfile-name ede-maven2-maven-command
-				      (append `(,nil ,nil ,nil "--batch-mode" "dependency:build-classpath"
+				      (append `(,nil ,nil ,nil ,(combine-and-quote-strings ede-maven2-maven-options)
+                                                     "dependency:build-classpath"
 						     ,(concat "-Dmdep.outputFile=" maven2-outfile-name))
 					      ede-maven2-deps-plugin-options)))
 
